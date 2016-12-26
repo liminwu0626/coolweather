@@ -1,6 +1,7 @@
 package com.whty.coolweather.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.socks.library.KLog;
 import com.whty.coolweather.R;
+import com.whty.coolweather.activity.WeatherActivity;
 import com.whty.coolweather.db.City;
 import com.whty.coolweather.db.County;
 import com.whty.coolweather.db.Province;
@@ -100,6 +102,12 @@ public class ChooseAreaFragment extends Fragment implements View.OnClickListener
                 } else if (currentLevel == LEVEL_CITY) {
                     selectedCity = mCityList.get(position);
                     queryCounties();
+                } else if (currentLevel == LEVEL_COUNTY) {
+                    String weatherId = mCountyList.get(position).getWeatherId();
+                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                    intent.putExtra("weather_id", weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
             }
         });
@@ -149,6 +157,7 @@ public class ChooseAreaFragment extends Fragment implements View.OnClickListener
             queryFromServer(address, "city");
         }
     }
+
     /**
      * 查询选中市内所有的县，优先从数据库查询，如果没有查询到再去服务器查询
      */
@@ -224,6 +233,7 @@ public class ChooseAreaFragment extends Fragment implements View.OnClickListener
                     });
                 }
             }
+
             @Override
             public void onFailure(Call call, IOException e) {
                 //通过runOnUiThread()方法回到主线程处理逻辑
