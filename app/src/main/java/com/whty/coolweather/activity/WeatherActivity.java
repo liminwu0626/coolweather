@@ -1,5 +1,6 @@
 package com.whty.coolweather.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -23,6 +24,7 @@ import com.socks.library.KLog;
 import com.whty.coolweather.R;
 import com.whty.coolweather.gson.Forecast;
 import com.whty.coolweather.gson.Weather;
+import com.whty.coolweather.service.AutoUpdateService;
 import com.whty.coolweather.util.HttpUtil;
 import com.whty.coolweather.util.Utility;
 
@@ -222,6 +224,8 @@ public class WeatherActivity extends AppCompatActivity {
         mCarWashText.setText(carWash);
         mSportText.setText(sport);
         mWeatherLayout.setVisibility(View.VISIBLE);
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
     }
 
     @OnClick(R.id.nav_button)
